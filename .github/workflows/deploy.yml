@@ -3,15 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Setup pnpm
@@ -19,22 +17,30 @@ jobs:
       with:
         version: 8
 
-    - name: Setup Node
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'pnpm'  # Change this to pnpm
+        cache: 'pnpm'
 
     - name: Install dependencies
-      run: pnpm install
+      run: |
+        # Check if pnpm-workspace.yaml exists and has packages configured
+        if [ -f "pnpm-workspace.yaml" ]; then
+          echo "Using workspace configuration"
+          pnpm install
+        else
+          echo "No workspace config, installing normally"
+          pnpm install --ignore-workspace
+        fi
 
-    - name: Build
+    - name: Build project
       run: pnpm run build
 
-    - name: Export
+    - name: Export static files
       run: pnpm run export
 
-    - name: Deploy
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
