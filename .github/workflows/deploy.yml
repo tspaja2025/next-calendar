@@ -24,21 +24,10 @@ jobs:
         cache: 'pnpm'
 
     - name: Install dependencies
-      run: |
-        # Check if pnpm-workspace.yaml exists and has packages configured
-        if [ -f "pnpm-workspace.yaml" ]; then
-          echo "Using workspace configuration"
-          pnpm install
-        else
-          echo "No workspace config, installing normally"
-          pnpm install --ignore-workspace
-        fi
+      run: pnpm install --ignore-workspace
 
     - name: Build project
       run: pnpm run build
-
-    - name: Export static files
-      run: pnpm run export
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
