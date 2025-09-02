@@ -26,11 +26,11 @@ export function EventFilters() {
   const handleColorToggle = (colorValue: string, checked: boolean) => {
     if (checked) {
       // Remove from hidden colors (show the color)
-      // @ts-expect-error
+      // @ts-expect-error argument can be assigned
       setHiddenColors(prev => prev.filter(color => color !== colorValue));
     } else {
       // Add to hidden colors (hide the color)
-      // @ts-expect-error
+      // @ts-expect-error argument is assigned
       setHiddenColors(prev => [...prev, colorValue]);
     }
   };
