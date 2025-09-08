@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true
   },
+  basePath: process.env.NODE_ENV === 'production' ? '/next-calendar' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/next-calendar/' : '',
 };
 
 export default nextConfig;
