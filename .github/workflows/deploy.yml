@@ -3,6 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  # Add workflow_dispatch for manual triggers if needed
+  workflow_dispatch:
+
+permissions:
+  contents: write  # This is crucial for gh-pages deployment
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -34,5 +41,6 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.GH_PAT }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./out
+        force_orphan: true  # This can help with some git issues
