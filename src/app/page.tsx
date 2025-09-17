@@ -1,22 +1,25 @@
-import { CalendarDialog } from "@/components/calendar/calendar-dialog";
-import { CalendarGrid } from "@/components/calendar/calendar-grid";
-import { CalendarHeader } from "@/components/calendar/calendar-header";
-import { CalendarProvider } from "@/components/calendar/calendar-provider";
-import { CalendarSidebar } from "@/components/calendar/calendar-sidebar";
+"use client";
+
+import { CalendarDialog } from "@/components/calendar/CalendarDialog";
+import { CalendarGrid } from "@/components/calendar/CalendarGrid";
+import { CalendarHeader } from "@/components/calendar/CalendarHeader";
+import { CalendarProvider } from "@/components/calendar/CalendarProvider";
+import { CalendarSidebar } from "@/components/calendar/CalendarSidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Home() {
   return (
-    <CalendarProvider>
-      <div className="flex flex-col h-screen">
-        <CalendarHeader />
-        <div className="flex flex-1 overflow-hidden">
+    <SidebarProvider>
+      <CalendarProvider>
+        <div className="flex h-screen w-full">
           <CalendarSidebar />
-          <div className="flex-1 overflow-hidden">
+          <SidebarInset className="flex-1">
+            <CalendarHeader />
             <CalendarGrid />
-          </div>
+          </SidebarInset>
+          <CalendarDialog />
         </div>
-        <CalendarDialog />
-      </div>
-    </CalendarProvider>
+      </CalendarProvider>
+    </SidebarProvider>
   );
 }
